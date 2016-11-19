@@ -11,20 +11,19 @@ npm i inject-instance --save
 create `A.ts`:
 
 ```typescript
-import B from './B'
+import {inject} from 'inject-instance'
+import A from './A'
 
-export default class A {
-    static inject = ['B']
-    private b: B
+export default class B {
+    private a: A
+    public name = 'bbb'
 
-    public name = 'aaa'
-
-    onInject(b: B) {
-        this.b = b
+    @inject('A') onInject(a: A) {
+        this.a = a
     }
 
     say() {
-        console.log('A inject B instance', this.b.name)
+        console.log('B inject A instance', this.a.name)
     }
 }
 ```
@@ -32,20 +31,20 @@ export default class A {
 create `B.ts`
 
 ```typescript
-import A from './A'
+import {inject} from 'inject-instance'
+import B from './B'
 
-export default class B {
-    static inject = ['A']
-    private a: A
+export default class A {
+    private b: B
+    public name = 'aaa'
 
-    public name = 'bbb'
-
-    onInject(a: A) {
-        this.a = a
+    // any method with decorator 'inject' will be executed at the initial time
+    @inject('B') otherMethod(b: B) {
+        this.b = b
     }
 
     say() {
-        console.log('B inject A instance', this.a.name)
+        console.log('A inject B instance', this.b.name)
     }
 }
 ```

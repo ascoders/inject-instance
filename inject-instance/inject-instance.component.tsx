@@ -22,7 +22,7 @@ export default (...classes: Array<any>) => {
         // 找到该实例的类
         const instanceClass = classMap.get(key)
         // 遍历这个类的注入实例类名
-        instanceClass.inject.forEach((injectName: string) => {
+        eachInstance['_injectDecorator__onInject'].injectNames.forEach((injectName: string) => {
             if (!instanceMap.get(injectName)) {
                 throw 'injectName: ' + injectName + ' not found!'
             }
@@ -30,9 +30,9 @@ export default (...classes: Array<any>) => {
         })
 
         try {
-            eachInstance.onInject(...injectInstances)
+            eachInstance['_injectDecorator__onInject'].method.call(eachInstance, ...injectInstances)
         } catch (error) {
-            throw 'class ' + key + ' has no method onInject!'
+            throw 'class ' + key + ' has no method _injectDecorator__onInject!'
         }
     })
 
