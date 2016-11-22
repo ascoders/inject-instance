@@ -12,18 +12,14 @@ create `A.ts`:
 
 ```typescript
 import {inject} from 'inject-instance'
-import A from './A'
+import B from './B'
 
-export default class B {
-    private a: A
-    public name = 'bbb'
-
-    @inject('A') onInject(a: A) {
-        this.a = a
-    }
+export default class A {
+    @inject('B') private b: B
+    public name = 'aaa'
 
     say() {
-        console.log('B inject A instance', this.a.name)
+        console.log('A inject B instance', this.b.name)
     }
 }
 ```
@@ -32,19 +28,14 @@ create `B.ts`
 
 ```typescript
 import {inject} from 'inject-instance'
-import B from './B'
+import A from './A'
 
-export default class A {
-    private b: B
-    public name = 'aaa'
-
-    // any method with decorator 'inject' will be executed at the initial time
-    @inject('B') otherMethod(b: B) {
-        this.b = b
-    }
+export default  class B {
+    @inject('A') private a: A
+    public name = 'bbb'
 
     say() {
-        console.log('A inject B instance', this.b.name)
+        console.log('B inject A instance', this.a.name)
     }
 }
 ```
