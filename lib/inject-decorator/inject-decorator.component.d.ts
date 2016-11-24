@@ -1,2 +1,2 @@
-declare var _default: (...injectNames: string[]) => any;
+declare var _default: (injectName: string) => any;
 export default _default;
